@@ -8,7 +8,7 @@ use parent 'Alien::Base';
 
 =head1 NAME
 
-Alien::ImageMagick - The great new Alien::ImageMagick!
+Alien::ImageMagick - cpanm compatible Image::Magick packaging.
 
 =head1 VERSION
 
@@ -18,7 +18,46 @@ Version 0.01
 
 our $VERSION = '0.01';
 
+=head1 DESCRIPTION
 
+This package's purpose is to make the installation
+of the official Image Magick library and Perl interface
+compatible with cpanm ( L<https://metacpan.org/pod/distribution/App-cpanminus/bin/cpanm> )
+and perlbrew ( L<https://metacpan.org/pod/distribution/App-perlbrew/bin/perlbrew> ).
+
+Installing it will download and install the B<freshest image magick library and Perl interface>
+from the official Image magick website ( See L<http://www.imagemagick.org/script/install-source.php> )
+in a way that is compatible with perlbrew and/or cpanm.
+
+If you use cpanm or perlbrew, this will not conflict with your system's Image Magick installation.
+
+=head1 SYNOPSIS
+
+To use this package and use Image::Magick from your application code:
+
+Instead of depending on 'Image::Magick', just B<depend on 'Alien::ImageMagick'>.
+
+Then see L<http://www.imagemagick.org/script/perl-magick.php#overview> for more on using image magic with perl.
+
+=over
+
+=item With System Perl
+
+If you need to use Image::Magick and use system perl and system PerlMagick, you only
+need this package if you want the freshest version of Image Magick.
+
+=item With cpanm
+
+If you need to use Image::Magick and use cpanm, you only need this package
+if you want the freshest version of Image Magick. Otherwise you can install
+your system's one.
+
+=item With perlbrew + cpanm
+
+If you need to use Image::Magick and use perlbrew w/ cpanm, you will need this
+package.
+
+=back
 
 =head1 AUTHOR
 
