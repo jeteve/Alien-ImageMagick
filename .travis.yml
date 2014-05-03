@@ -6,6 +6,7 @@ perl:
   - "5.10"
 
 install:
+   - cpanm Alien::Base
    - cpanm -v --installdeps .
    - perl ./Build.PL
    - ./Build
