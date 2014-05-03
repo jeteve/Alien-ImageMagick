@@ -30,17 +30,19 @@ my $builder = Alien::Base::ModuleBuild->new(
     add_to_cleanup      => [ 'Alien-ImageMagick-*' ],
 
     alien_name => 'MagickWand',
-    # alien_repository => {
-    #     protocol => 'http',
-    #     host => 'www.imagemagick.org',
-    #     location => '/download/',
-    #     exact_filename => 'ImageMagick.tar.gz'
-    # },
     alien_repository => {
-                         protocol => 'local',
-                         location => 'inc',
-                         exact_filename => 'ImageMagick.tar.gz',
-                        },
+        protocol => 'http',
+        host => 'www.imagemagick.org',
+        location => '/download/',
+        exact_filename => 'ImageMagick.tar.gz'
+    },
+    ## For development, to save the download time,
+    ## download the package once and put it in an 'inc' directory.
+    # alien_repository => {
+    #                      protocol => 'local',
+    #                      location => 'inc',
+    #                      exact_filename => 'ImageMagick.tar.gz',
+    #                     },
     alien_build_commands => [
        'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
        'make'
