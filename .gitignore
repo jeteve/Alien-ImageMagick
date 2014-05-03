@@ -1,3 +1,5 @@
+_alien/
+_share/
 blib*
 Makefile
 Makefile.old
