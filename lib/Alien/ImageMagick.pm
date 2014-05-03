@@ -18,6 +18,14 @@ Version 0.01
 
 our $VERSION = '0.01';
 
+=head1 PREREQS
+
+Your perl B<MUST> be configured with -D useshrplib for this to install.
+
+If you use perlbrew, you might have to recompile with -D useshrplib
+
+See L<http://www.imagemagick.org/discourse-server/viewtopic.php?f=7&t=25526> to see why.
+
 =head1 DESCRIPTION
 
 This package's purpose is to make the installation

@@ -22,6 +22,7 @@ my $builder = Alien::Base::ModuleBuild->new(
     },
     build_requires => {
         'Test::More' => 0,
+        'Alien::Base' => 0,
     },
     requires => {
         'perl' => 5.006,
@@ -55,25 +56,32 @@ my $builder = Alien::Base::ModuleBuild->new(
 
 unless( $builder->config('useshrplib') eq 'true' ){
   die qq|
+
+*******************************************************************
+**
 ** Sorry, you cannot configure this with this Perl installation. **
+**
+**
+** PLEASE READ THIS:
+**
+** Image Magic requires perl to be compiles with -Duseshrplib, but this perl
+** ($perlbin) is not compiled with it.
+**
+** This is because Image Magick Perl integration package (PerlMagick , providing Image::Magick)
+** can only compile with libperl.so, not libperl.a.
+**
+** See http://www.imagemagick.org/discourse-server/viewtopic.php?f=7&t=25526
+**
+** -> If you are using a System Perl, this should be be alright,
+** as they are usually compiled with -Duseshrplib. So if you see this,
+** check with your distribution.
+**
+** -> Perlbrew users should re-install their perl like that:
+**
+** perlbrew install $perlversion  -D useshrplib
+**
+*******************************************************************
 
-PLEASE READ THIS:
-
-Image Magic requires perl to be compiles with -Duseshrplib, but this perl
-($perlbin) is not compiled with it.
-
-This is because Image Magick Perl integration package (PerlMagick , providing Image::Magick)
-can only compile with libperl.so, not libperl.a.
-
-See http://www.imagemagick.org/discourse-server/viewtopic.php?f=7&t=25526
-
--> If you are using a System Perl, this should be be alright,
-as they are usually compiled with -Duseshrplib. So if you see this,
-check with your distribution.
-
--> Perlbrew users should re-install their perl like that:
-
-perlbrew install $perlversion  -D useshrplib
 
 |;
 
