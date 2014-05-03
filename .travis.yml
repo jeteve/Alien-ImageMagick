@@ -6,7 +6,7 @@ perl:
   - "5.10"
 
 install:
-   - cpanm --installdeps .
+   - cpanm -v --installdeps .
    - perl ./Build.PL
    - ./Build
 
