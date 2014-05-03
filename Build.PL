@@ -54,7 +54,10 @@ my $builder = Alien::Base::ModuleBuild->new(
     ]
 );
 
-unless( $builder->config('useshrplib') eq 'true' ){
+# Current perl config args.
+my $config_args = $Config{config_args};
+
+unless( $builder->config('useshrplib') eq 'trues' ){
   die qq|
 
 *******************************************************************
@@ -78,7 +81,7 @@ unless( $builder->config('useshrplib') eq 'true' ){
 **
 ** -> Perlbrew users should re-install their perl like that:
 **
-** perlbrew install $perlversion  -D useshrplib
+** perlbrew --force install $perlversion $config_args -Duseshrplib
 **
 *******************************************************************
 
