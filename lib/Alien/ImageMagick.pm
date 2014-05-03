@@ -39,7 +39,7 @@ in a way that is compatible with perlbrew and/or cpanm.
 
 If you use cpanm or perlbrew, this will not conflict with your system's Image Magick installation.
 
-=head1 SYNOPSIS
+=head1 INSTALLATION
 
 To use this package and use Image::Magick from your application code:
 
@@ -54,18 +54,29 @@ Then see L<http://www.imagemagick.org/script/perl-magick.php#overview> for more 
 If you need to use Image::Magick and use system perl and system PerlMagick, you only
 need this package if you want the freshest version of Image Magick.
 
+Install Alien::ImageMagick with your favorite package manager.
+
 =item With cpanm
 
 If you need to use Image::Magick and use cpanm, you only need this package
 if you want the freshest version of Image Magick. Otherwise you can install
 your system's one.
 
+   cpanm Alien::ImageMagick
+
 =item With perlbrew + cpanm
 
 If you need to use Image::Magick and use perlbrew w/ cpanm, you will need this
 package.
 
+   cpanm Alien::ImageMagick
+
 =back
+
+=head1 SYNOPSIS
+
+  use Image::Magick
+  ...
 
 =head1 AUTHOR
 
