@@ -71,6 +71,10 @@ package.
 
 Jerome Eteve, C<< <jerome.eteve at gmail.com> >>
 
+=head1 ACKNOWLEDGEMENTS
+
+This is inspired by David Farrell's post on perltricks.com L<http://perltricks.com/article/57/2014/1/1/Shazam-Use-Image-Magick-with-Perlbrew-in-minutes>
+
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-alien-imagemagick at rt.cpan.org>, or through
