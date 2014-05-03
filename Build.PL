@@ -6,10 +6,11 @@ use Alien::Base::ModuleBuild;
 use Config;
 
 my $perlbin = $Config{perlpath};
-my $core_lib;
-( $core_lib ) =  (  $Config{ccdlflags}  =~ m/([^\,]+\/CORE)/  );
+my $core_lib =  $Config{archlib}.'/CORE/';
 my $use_threads = $Config{usethreads} ? '' : '--without-threads';
-my $LDFLAGS= [ '-L'.$core_lib ];
+
+
+my $LDFLAGS= '-L'.$core_lib;
 
 my $builder = Alien::Base::ModuleBuild->new(
     module_name         => 'Alien::ImageMagick',
@@ -18,28 +19,36 @@ my $builder = Alien::Base::ModuleBuild->new(
     dist_version_from   => 'lib/Alien/ImageMagick.pm',
     configure_requires => {
         'Alien::Base' => 0,
+        'Module::Build' => 0.38,
     },
     build_requires => {
         'Test::More' => 0,
     },
     requires => {
         'perl' => 5.006,
+        'Alien::Base' => 0,
     },
     add_to_cleanup      => [ 'Alien-ImageMagick-*' ],
-    create_makefile_pl => 'traditional',
 
     alien_name => 'MagickWand',
+    # alien_repository => {
+    #     protocol => 'http',
+    #     host => 'www.imagemagick.org',
+    #     location => '/download/',
+    #     exact_filename => 'ImageMagick.tar.gz'
+    # },
     alien_repository => {
-        protocol => 'http',
-        host => 'www.imagemagick.org',
-        location => '/download/',
-        exact_filename => 'ImageMagick.tar.gz'
-    },
-    extra_linker_flags => $LDFLAGS,
+                         protocol => 'local',
+                         location => 'inc',
+                         exact_filename => 'ImageMagick.tar.gz',
+                        },
     alien_build_commands => [
-       '%pconfigure --prefix=%s --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
+       'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
        'make'
     ],
+    alien_install_commands => [
+        'LDFLAGS='.$LDFLAGS.' make install'
+    ]
 );
 
 $builder->create_build_script();
