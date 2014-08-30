@@ -7,6 +7,7 @@ use Config;
 
 my $perlbin = $Config{perlpath};
 my $perlversion = $Config{version};
+my $siteprefix = $Config{siteprefix};
 my $core_lib =  $Config{archlib}.'/CORE/';
 my $use_threads = $Config{usethreads} ? '' : '--without-threads';
 my $LDFLAGS= '-L'.$core_lib;
@@ -45,7 +46,7 @@ my $builder = Alien::Base::ModuleBuild->new(
     #                      exact_filename => 'ImageMagick.tar.gz',
     #                     },
     alien_build_commands => [
-       'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
+       'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --exec-prefix='.$siteprefix.' --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
        'make'
     ],
     alien_install_commands => [
