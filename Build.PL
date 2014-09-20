@@ -8,6 +8,7 @@ use Config;
 my $perlbin = $Config{perlpath};
 my $perlversion = $Config{version};
 my $siteprefix = $Config{siteprefix};
+
 my $core_lib =  $Config{archlib}.'/CORE/';
 my $use_threads = $Config{usethreads} ? '' : '--without-threads';
 my $LDFLAGS= '-L'.$core_lib;
@@ -46,8 +47,26 @@ my $builder = Alien::Base::ModuleBuild->new(
     #                      exact_filename => 'ImageMagick.tar.gz',
     #                     },
     alien_build_commands => [
-       'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --exec-prefix='.$siteprefix.' --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
-       'make'
+                             ## This siteprefix will install the execs in perl's /bin and the libs in perl's lib/
+                             'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --exec-prefix='.$siteprefix.' --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
+
+                             # Patch the PerlMagick makefiles to reflect lib installation places.
+                             # This is because ImageMagic's PerlMagick package comes with Makefile.PL files
+                             # containing a relative reference to the build directory ../magick/.libs
+                             #
+                             # This causes https://rt.cpan.org/Public/Bug/Display.html?id=98979
+                             #
+                             # This (fairly) dirty patch will hopefully solve the issue,
+                             # only until Image magick decides to change their Perl distribution structure.
+
+                             # See original source in  http://trac.imagemagick.org/browser/ImageMagick/trunk/PerlMagick/Makefile.PL
+                             # if this breaks.
+                             q|echo "Patching Makefile.PL files in `pwd`. See |.__FILE__.q| for more"|,
+                             q|perl -pi -e 's:-L\.\./magick(.*?)/\.libs:-L|.$siteprefix.q|/lib:gi' PerlMagick/Makefile.PL|,
+                             q|perl -pi -e 's:-L\.\./\.\./magick(.*?)/\.libs:-L|.$siteprefix.q|/lib:gi' PerlMagick/quantum/Makefile.PL|,
+                             q|perl -pi -e 's:-L\.\./\.\./magick(.*?)/\.libs:-L|.$siteprefix.q|/lib:gi' PerlMagick/default/Makefile.PL|,
+                             ,
+                             'make',
     ],
     alien_install_commands => [
         'LDFLAGS='.$LDFLAGS.' make install', # This will build the included PerlMagick package.
