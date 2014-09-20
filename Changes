@@ -1,5 +1,14 @@
 Revision history for Alien-ImageMagick
 
+0.03    2014-09-20
+        Fixed dynamic linking to build-dir libraries. see RT#98979
+
+        Completed history. see RT#98978
+
+0.02    2014-08-30
+        Install ImageMagick binary utilities in an accessible place
+        for perlbrew. see RT#96475
+
 0.01    2014-05-03
 
         First version, released on an unsuspecting world.
