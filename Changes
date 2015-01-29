@@ -1,5 +1,8 @@
 Revision history for Alien-ImageMagick
 
+0.04    2015-01-29
+        Moved pod tests to xt. see RT#101448
+
 0.03    2014-09-20
         Fixed dynamic linking to build-dir libraries. see RT#98979
 
