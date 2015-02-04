@@ -12,11 +12,11 @@ Alien::ImageMagick - cpanm compatible Image::Magick packaging.
 
 =head1 VERSION
 
-Version 0.04
+Version 0.06
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.06';
 
 =head1 PREREQS
 
