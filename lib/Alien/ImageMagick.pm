@@ -124,10 +124,6 @@ L<http://search.cpan.org/dist/Alien-ImageMagick/>
 
 =back
 
-
-=head1 ACKNOWLEDGEMENTS
-
-
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2014 Jerome Eteve.
