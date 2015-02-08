@@ -11,6 +11,7 @@ my $siteprefix = $Config{siteprefix};
 
 my $core_lib =  $Config{archlib}.'/CORE/';
 my $use_threads = $Config{usethreads} ? '' : '--without-threads';
+my $enable_shared = ( ( $Config{useshrplib} || '' ) eq 'false' ) ? '' : '--enable-shared';
 my $LDFLAGS= '-L'.$core_lib;
 
 my $builder = Alien::Base::ModuleBuild->new(
@@ -39,6 +40,7 @@ my $builder = Alien::Base::ModuleBuild->new(
         location => '/download/',
         exact_filename => 'ImageMagick.tar.gz'
     },
+
     ## For development, to save the download time,
     ## download the package once and put it in an 'inc' directory.
     # alien_repository => {
@@ -48,7 +50,7 @@ my $builder = Alien::Base::ModuleBuild->new(
     #                     },
     alien_build_commands => [
                              ## This siteprefix will install the execs in perl's /bin and the libs in perl's lib/
-                             'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --exec-prefix='.$siteprefix.' --with-perl='.$perlbin.' --enable-shared '.$use_threads ,
+                             'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --exec-prefix='.$siteprefix.' --with-perl='.$perlbin.' '.$enable_shared.' '.$use_threads ,
 
                              # Patch the PerlMagick makefiles to reflect lib installation places.
                              # This is because ImageMagic's PerlMagick package comes with Makefile.PL files
@@ -73,41 +75,5 @@ my $builder = Alien::Base::ModuleBuild->new(
         $perlbin.' -e "use Image::Magick; print Image::Magick->QuantumDepth"', # This checks Image magick is there fine.
     ]
 );
-
-# Current perl config args.
-my $config_args = $Config{config_args};
-
-unless( $builder->config('useshrplib') eq 'true' ){
-  die qq|
-
-*******************************************************************
-**
-** Sorry, you cannot configure this with this Perl installation. **
-**
-**
-** PLEASE READ THIS:
-**
-** Image Magic requires perl to be built with -Duseshrplib, but this perl
-** ($perlbin) is not built with it.
-**
-** This is because Image Magick Perl integration package (PerlMagick , providing Image::Magick)
-** can only be linked against libperl.so, not libperl.a.
-**
-** See http://www.imagemagick.org/discourse-server/viewtopic.php?f=7&t=25526
-**
-** -> If you are using a System Perl, this should be just fine,
-** as they are usually compiled with -Duseshrplib. So if you see this,
-** check with your distribution.
-**
-** -> Perlbrew users should re-install their perl like that:
-**
-** perlbrew --force install $perlversion $config_args -Duseshrplib
-**
-*******************************************************************
-
-|;
-
-
-}
 
 $builder->create_build_script();

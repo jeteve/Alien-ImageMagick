@@ -1,7 +1,8 @@
 Revision history for Alien-ImageMagick
 
-0.05    2015-02-04
-        Bumped up Alien::Base dependency. Fixes OS X installation.
+0.05    2015-02-08
+        No requirement for shared lib perl. See RT#95322
+        Bumped up Alien::Base dependency.
 
 0.04    2015-01-29
         Moved pod tests to xt. see RT#101448
