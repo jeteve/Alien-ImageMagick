@@ -11,4 +11,7 @@ install:
 
 script:
    - perl ./Build.PL
-   - ./Build || true
+   - ./Build
+   - rm -f Alien-ImageMagick-*.tar.gz
+   - ./Build dist
+   - cpanm -v Alien-ImageMagick-*.tar.gz
