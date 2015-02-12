@@ -12,19 +12,11 @@ Alien::ImageMagick - cpanm compatible Image::Magick packaging.
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
-
-=head1 PREREQS
-
-Your perl B<MUST> be configured with -D useshrplib for this to install.
-
-If you use perlbrew, you might have to recompile with -D useshrplib
-
-See L<http://www.imagemagick.org/discourse-server/viewtopic.php?f=7&t=25526> to see why.
+our $VERSION = '0.06';
 
 =head1 DESCRIPTION
 
