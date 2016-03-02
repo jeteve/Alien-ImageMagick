@@ -20,7 +20,7 @@ my $builder = Alien::Base::ModuleBuild->new(
     dist_author         => q{Jerome Eteve <jerome.eteve@gmail.com>},
     dist_version_from   => 'lib/Alien/ImageMagick.pm',
     configure_requires => {
-        'Alien::Base' => 0.009,
+        'Alien::Base::ModuleBuild' => 0.009,
         'Module::Build' => 0.38,
     },
     build_requires => {
@@ -73,7 +73,12 @@ my $builder = Alien::Base::ModuleBuild->new(
     alien_install_commands => [
         'LDFLAGS='.$LDFLAGS.' make install', # This will build the included PerlMagick package.
         $perlbin.' -e "use Image::Magick; print Image::Magick->QuantumDepth"', # This checks Image magick is there fine.
-    ]
+    ],
+    meta_merge => {
+        resources  => {
+            repository => "https://github.com/plicease/Alien-ImageMagick",
+        },
+    }
 );
 
 $builder->create_build_script();
