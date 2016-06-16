@@ -76,7 +76,7 @@ my $builder = Alien::Base::ModuleBuild->new(
     ],
     meta_merge => {
         resources  => {
-            repository => "https://github.com/plicease/Alien-ImageMagick",
+            repository => "https://github.com/jeteve/Alien-ImageMagick",
         },
     }
 );
