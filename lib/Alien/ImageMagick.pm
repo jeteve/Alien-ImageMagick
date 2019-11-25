@@ -12,11 +12,11 @@ Alien::ImageMagick - cpanm compatible Image::Magick packaging.
 
 =head1 VERSION
 
-Version 0.06
+Version 0.08
 
 =cut
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 =head1 DESCRIPTION
 
@@ -47,6 +47,7 @@ If you need to use Image::Magick and use system perl and system PerlMagick, you 
 need this package if you want the freshest version of Image Magick.
 
 Install Alien::ImageMagick with your favorite package manager.
+
 
 =item With cpanm
 
