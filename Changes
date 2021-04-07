@@ -1,5 +1,8 @@
 Revision history for Alien-ImageMagick
 
+0.08
+        Run ldconfig after installation, to be sure the test works.
+
 0.07    2016-03-02
         Make sure that Alien::Base::ModuleBuild is correctly specified as a configure_requires. Thanks @plicease
         PR #2

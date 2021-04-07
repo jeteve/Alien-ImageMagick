@@ -14,6 +14,8 @@ my $use_threads = $Config{usethreads} ? '' : '--without-threads';
 my $enable_shared = ( ( $Config{useshrplib} || '' ) eq 'false' ) ? '' : '--enable-shared';
 my $LDFLAGS= '-L'.$core_lib;
 
+my ($ldconfig) = grep { -x } map { "$_/ldconfig" } split(/:/, $ENV{PATH});
+
 my $builder = Alien::Base::ModuleBuild->new(
     module_name         => 'Alien::ImageMagick',
     license             => 'perl',
@@ -45,13 +47,13 @@ my $builder = Alien::Base::ModuleBuild->new(
     ## For development, to save the download time,
     ## download the package once and put it in an 'inc' directory.
     # alien_repository => {
-    #                      protocol => 'local',
-    #                      location => 'inc',
-    #                      exact_filename => 'ImageMagick.tar.gz',
-    #                     },
+    #                     protocol => 'local',
+    #                     location => 'inc',
+    #                     exact_filename => 'ImageMagick.tar.gz',
+    #                    },
     alien_build_commands => [
                              ## This siteprefix will install the execs in perl's /bin and the libs in perl's lib/
-                             'LDFLAGS='.$LDFLAGS.' %pconfigure --prefix=%s --exec-prefix='.$siteprefix.' --with-perl='.$perlbin.' '.$enable_shared.' '.$use_threads ,
+                             'LDFLAGS='.$LDFLAGS.' %c --prefix=%s --exec-prefix='.$siteprefix.' --with-perl='.$perlbin.' '.$enable_shared.' '.$use_threads ,
 
                              # Patch the PerlMagick makefiles to reflect lib installation places.
                              # This is because ImageMagic's PerlMagick package comes with Makefile.PL files
@@ -73,7 +75,9 @@ my $builder = Alien::Base::ModuleBuild->new(
     ],
     alien_install_commands => [
         'LDFLAGS='.$LDFLAGS.' make install', # This will build the included PerlMagick package.
+        $ldconfig // "",
         $perlbin.' -e "use Image::Magick; print Image::Magick->QuantumDepth"', # This checks Image magick is there fine.
+
     ],
     meta_merge => {
         resources  => {
@@ -83,3 +87,4 @@ my $builder = Alien::Base::ModuleBuild->new(
 );
 
 $builder->create_build_script();
+
