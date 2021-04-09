@@ -20,12 +20,13 @@ my $builder = Alien::Base::ModuleBuild->new(
     dist_author         => q{Jerome Eteve <jerome.eteve@gmail.com>},
     dist_version_from   => 'lib/Alien/ImageMagick.pm',
     configure_requires => {
-        'Alien::Base::ModuleBuild' => 0.009,
+        'Alien::Base::ModuleBuild' => 1.15,
         'Module::Build' => 0.38,
     },
     build_requires => {
         'Test::More' => 1.001014,
         'Alien::Base' => 0.009,
+        'IO::Socket::SSL' => 2.070,
     },
     requires => {
         'perl' => 5.006,
