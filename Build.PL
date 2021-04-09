@@ -16,6 +16,7 @@ my $enable_shared = ( ( $Config{useshrplib} || '' ) eq 'false' ) ? '' : '--enabl
 my $LDFLAGS= '-L'.$core_lib;
 
 my ($ldconfig) = grep { -x } map { "$_/ldconfig" } split(/:/, $ENV{PATH});
+$ldconfig = "$ldconfig || true" if $ldconfig;
 
 my $builder = Alien::Base::ModuleBuild->new(
     module_name         => 'Alien::ImageMagick',
