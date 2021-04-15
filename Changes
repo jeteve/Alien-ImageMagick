@@ -1,6 +1,6 @@
 Revision history for Alien-ImageMagick
 
-0.08
+0.08    2021-04-12
         Run ldconfig after installation, to be sure the test works.
         Instruct ImageMagick to build all modules, or library will get unresolved symbols
         Workout the way data folder for delegations is computed    
