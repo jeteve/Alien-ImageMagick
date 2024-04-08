@@ -40,9 +40,9 @@ my $builder = Alien::Base::ModuleBuild->new(
 
     alien_name => 'MagickWand',
     alien_repository => {
-        protocol => 'http',
-        host => 'www.imagemagick.org',
-        location => '/download/',
+        protocol => 'https',
+        host => 'imagemagick.org',
+        location => '/archive/',
         exact_filename => 'ImageMagick.tar.gz'
     },
 
@@ -79,7 +79,7 @@ my $builder = Alien::Base::ModuleBuild->new(
     ],
     alien_install_commands => [
         'LDFLAGS='.$LDFLAGS.' make install', # This will build the included PerlMagick package.
-        $ldconfig // (),
+        $ldconfig // "",
         $perlbin.' -e "use Image::Magick; print Image::Magick->QuantumDepth"', # This checks Image magick is there fine.
 
     ],
