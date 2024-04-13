@@ -32,4 +32,7 @@ jobs:
 
       - name: Run Build.PL
         run: perl Build.PL
-        
+
+      - name: Run Build
+        run: perl Build 
+      
