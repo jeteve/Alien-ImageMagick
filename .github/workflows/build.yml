@@ -29,3 +29,7 @@ jobs:
 
       - name: Installs dependencies
         run: cpm install Alien::Base::ModuleBuild IO::Socket::SSL
+
+      - name: Run Build.PL
+        run: perl Build.PL
+        
