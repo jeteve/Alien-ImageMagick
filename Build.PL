@@ -76,7 +76,7 @@ my $builder = Alien::Base::ModuleBuild->new(
                              q|perl -pi -e 's:-L\.\./\.\./magick(.*?)/\.libs:-L|.$siteprefix.q|/lib:gi' PerlMagick/default/Makefile.PL|,
                              ,
                              'make',
-                             'cd PerlMagick && perl Makefile.PL && cd ..'
+                             'cd PerlMagick && perl Makefile.PL && make && cd ..'
     ],
     alien_install_commands => [
         'LDFLAGS='.$LDFLAGS.' make install', # This will build the included PerlMagick package.
