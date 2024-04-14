@@ -79,6 +79,7 @@ my $builder = Alien::Base::ModuleBuild->new(
     ],
     alien_install_commands => [
         'LDFLAGS='.$LDFLAGS.' make install', # This will build the included PerlMagick package.
+        q{find /opt/hostedtoolcache/ -name '*.pm'},
         $ldconfig // "",
         $perlbin.' -e "use Image::Magick; print Image::Magick->QuantumDepth"', # This checks Image magick is there fine.
 
