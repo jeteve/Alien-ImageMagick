@@ -88,7 +88,6 @@ my $builder = Alien::Base::ModuleBuild->new(
                              # https://github.com/ImageMagick/ImageMagick/blob/main/PerlMagick/Makefile.PL.in
                              q|echo "Patching Makefile.PL files in `pwd`. See |.__FILE__.q| for more"|,
                              q|perl -pi -e 's:(INSTALL_BASE.\s*=>\s*.).*(.,):$1|.$siteprefix.q|$2:i' PerlMagick/Makefile.PL|,
-                             q|cat PerlMagick/Makefile.PL|,
                              q|perl -pi -e 's:-L\.\./magick(.*?)/\.libs:-L|.$siteprefix.q|/lib:gi' PerlMagick/Makefile.PL|,
                              q|perl -pi -e 's:-L\.\./\.\./magick(.*?)/\.libs:-L|.$siteprefix.q|/lib:gi' PerlMagick/quantum/Makefile.PL|,
                              q|perl -pi -e 's:-L\.\./\.\./magick(.*?)/\.libs:-L|.$siteprefix.q|/lib:gi' PerlMagick/default/Makefile.PL|,
@@ -97,8 +96,6 @@ my $builder = Alien::Base::ModuleBuild->new(
     ],
     alien_install_commands => [
         'LDFLAGS='.$LDFLAGS.' make install', # This will build the included PerlMagick package.
-        q{find /opt -name 'Magick.pm'},
-        q{find /home -name 'Magick.pm'},
         $ldconfig // "",
         $perlbin.' -e "use Image::Magick; print Image::Magick->QuantumDepth"', # This checks Image magick is there fine.
 
