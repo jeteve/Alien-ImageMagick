@@ -53,7 +53,7 @@ my $builder = Alien::Base::ModuleBuild->new(
         protocol => 'https',
         ($image_magick_version eq 'latest'
             ? (
-                host           => 'imagemagick.org',
+                host           => 'download.imagemagick.org',
                 location       => '/archive/',
                 exact_filename => 'ImageMagick.tar.gz',
             ) : (
