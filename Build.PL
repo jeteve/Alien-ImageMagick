@@ -17,22 +17,24 @@ if ($ENV{PERL_ALIEN_IMAGEMAGICK_VERSION}) {
 
 ## GitHub source tarballs are per-tag, so there is no evergreen 'latest'
 ## URL like imagemagick.org's own archive used to provide. Resolve the
-## actual latest release tag from the GitHub API instead.
+## actual latest release tag from the redirect that
+## github.com/.../releases/latest issues, rather than the releases API,
+## which is subject to a much stricter (and easily exhausted) rate limit
+## for unauthenticated requests.
 if ($image_magick_version eq 'latest') {
     $image_magick_version = _latest_imagemagick_release_tag();
 }
 
 sub _latest_imagemagick_release_tag {
     require HTTP::Tiny;
-    my $url = 'https://api.github.com/repos/ImageMagick/ImageMagick/releases/latest';
-    my $response = HTTP::Tiny->new(timeout => 10)->get(
+    my $url = 'https://github.com/ImageMagick/ImageMagick/releases/latest';
+    my $response = HTTP::Tiny->new(timeout => 10, max_redirect => 0)->get(
         $url,
         { headers => { 'User-Agent' => 'Alien-ImageMagick-Build.PL' } },
     );
-    die "Unable to reach $url to determine the latest ImageMagick version: $response->{status} $response->{reason}\n"
-        unless $response->{success};
-    die "Unable to parse the latest ImageMagick version from the GitHub API response\n"
-        unless $response->{content} =~ /"tag_name"\s*:\s*"([^"]+)"/;
+    my $location = $response->{headers}{location} // '';
+    die "Unable to determine the latest ImageMagick version from $url (status $response->{status} $response->{reason})\n"
+        unless $location =~ m{/releases/tag/([^/]+)\z};
     return $1;
 }
 
