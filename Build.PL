@@ -15,6 +15,27 @@ if ($ENV{PERL_ALIEN_IMAGEMAGICK_VERSION}) {
     }
 }
 
+## GitHub source tarballs are per-tag, so there is no evergreen 'latest'
+## URL like imagemagick.org's own archive used to provide. Resolve the
+## actual latest release tag from the GitHub API instead.
+if ($image_magick_version eq 'latest') {
+    $image_magick_version = _latest_imagemagick_release_tag();
+}
+
+sub _latest_imagemagick_release_tag {
+    require HTTP::Tiny;
+    my $url = 'https://api.github.com/repos/ImageMagick/ImageMagick/releases/latest';
+    my $response = HTTP::Tiny->new(timeout => 10)->get(
+        $url,
+        { headers => { 'User-Agent' => 'Alien-ImageMagick-Build.PL' } },
+    );
+    die "Unable to reach $url to determine the latest ImageMagick version: $response->{status} $response->{reason}\n"
+        unless $response->{success};
+    die "Unable to parse the latest ImageMagick version from the GitHub API response\n"
+        unless $response->{content} =~ /"tag_name"\s*:\s*"([^"]+)"/;
+    return $1;
+}
+
 my $perlbin = $Config{perlpath};
 my $perlversion = $Config{version};
 my $siteprefix = $Config{siteprefix};
@@ -50,18 +71,10 @@ my $builder = Alien::Base::ModuleBuild->new(
 
     alien_name => 'MagickWand',
     alien_repository => {
-        protocol => 'https',
-        ($image_magick_version eq 'latest'
-            ? (
-                host           => 'imagemagick.org',
-                location       => '/archive/',
-                exact_filename => 'ImageMagick.tar.gz',
-            ) : (
-                host           => 'github.com',
-                location       => '/ImageMagick/ImageMagick/archive/refs/tags/',
-                exact_filename => $image_magick_version . '.tar.gz',
-            )
-        )
+        protocol       => 'https',
+        host           => 'github.com',
+        location       => '/ImageMagick/ImageMagick/archive/refs/tags/',
+        exact_filename => $image_magick_version . '.tar.gz',
     },
 
     alien_install_type => 'share',
