@@ -1,5 +1,12 @@
 Revision history for Alien-ImageMagick
 
+0.11    2026-09-04
+        - Resolve the "latest" ImageMagick version from the github.com
+          releases redirect and download it from github.com, instead of the
+          imagemagick.org archive host, which became unreachable (Thanks to
+          Niall Durham for the heads up)
+        - Install libltdl-dev in CI so ImageMagick builds with --with-modules
+
 0.10    2024-04-18
         - Support pinned versions of ImageMagick (Thanks to Breno Oliveira)
         - Support latest version of ImageMagick (7.1.1-30)
